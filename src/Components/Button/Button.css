@@ -1,0 +1,17 @@
+.iht-button {
+	background-color: #273469;
+	border: none;
+	height: 32px;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	width: fit-content;
+	color: white;
+}
+.iht-button:hover {
+	background-color: #1e2749;
+}
+.iht-button:active {
+	box-shadow: inset 1px 1px 5px 1px rgba(0, 0, 0, 0.345),
+		inset -1px -1px 5px 1px rgba(0, 0, 0, 0.345);
+}

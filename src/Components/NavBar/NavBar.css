@@ -1,0 +1,25 @@
+.iht-navbar {
+	display: flex;
+	padding: 0 16px;
+	background-color: #273469;
+	align-items: center;
+	justify-content: space-between;
+}
+.iht-navbar__title {
+	color: white;
+}
+.iht-navbar__links-container {
+	display: flex;
+	gap: 16px;
+}
+.iht-navbar__link {
+	text-decoration: none;
+	color: white;
+	border: 1px solid white;
+	border-radius: 4px;
+	padding: 4px 8px;
+}
+.iht-navbar__link--active {
+	color: #273469;
+	background-color: white;
+}
