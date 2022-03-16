@@ -1,0 +1,27 @@
+.iht-data-table {
+	border: 1px solid #d0d4dc;
+	border-radius: 4px;
+}
+.iht-data-table__table {
+	border-collapse: collapse;
+}
+
+.iht-data-table__table > :nth-child(odd) {
+	background-color: #d0d4dc;
+}
+.iht-data-table__table > :first-child {
+	background-color: #d0d4dc;
+}
+.iht-data-table__table * {
+	padding: 12px;
+}
+.iht-icon {
+	width: 32px;
+	height: 32px;
+}
+.fail {
+	color: crimson;
+}
+.success {
+	color: green;
+}
