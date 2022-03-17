@@ -2,7 +2,8 @@ import React from "react";
 import "./Button.css";
 /**
  *
- * @param {*} props
+ * @property {string} title
+ * @property {function} clicked
  * @returns
  */
 const Button = (props) => {

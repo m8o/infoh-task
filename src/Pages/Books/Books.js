@@ -4,13 +4,15 @@ import DataTable from "../../Components/DataTable/DataTable";
 import Paper from "../../Components/Paper/Paper";
 import Title from "../../Components/Title/Title";
 import FloatingButton from "../../Components/FloatingButton/FloatingButton";
+import { useNavigate } from "react-router-dom";
 
 const Books = () => {
+	let navigate = useNavigate();
 	return (
 		<div className="iht-books iht-content-wrapper">
 			<div className="iht-content-title-button">
-				<Title size="small">Books</Title>
-				<FloatingButton />
+				<Title>Books</Title>
+				<FloatingButton onClick={() => navigate("/Books/AddNew")} />
 			</div>
 			<Paper>
 				<DataTable

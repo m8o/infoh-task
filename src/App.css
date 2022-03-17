@@ -12,3 +12,24 @@
 	align-items: center;
 	justify-content: space-between;
 }
+.iht-form {
+	width: 65vw;
+	max-width: 500px;
+}
+.iht-inputs-form {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	place-items: center;
+}
+.iht-inputs-form > .iht-button {
+	grid-column: 1 / span 2;
+}
+.iht-inputs-form > :last-child {
+	margin-top: 16px;
+}
+@media (max-width: 780px) {
+	.iht-inputs-form {
+		grid-template-columns: 1fr;
+	}
+}
