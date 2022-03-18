@@ -11,6 +11,8 @@ import BookForm from "../Pages/Books/BookForm/BookForm";
 import CategoryForm from "../Pages/Categories/CategoryForm/CategoryForm";
 
 const Layout = () => {
+	const reduxState = useSelector((state) => state);
+	console.log("reduxState", reduxState);
 	return (
 		<div className="iht-layout">
 			<NavBar />
