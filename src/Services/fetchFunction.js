@@ -1,6 +1,5 @@
 export default function fetchFunction(method, url, model) {
 	let options = {};
-	let okStatus = 200;
 	switch (method) {
 		case "get":
 			options = {
@@ -19,7 +18,6 @@ export default function fetchFunction(method, url, model) {
 				},
 				body: JSON.stringify(model),
 			};
-			okStatus = 201;
 			break;
 
 		case "delete":
