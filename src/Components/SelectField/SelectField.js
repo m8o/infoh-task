@@ -8,6 +8,7 @@ import React from "react";
  * @property {string} name
  * @property {string} value
  * @property {function} onChange
+ * @property {boolean} disabled
  * @returns
  */
 const SelectField = (props) => {
@@ -20,11 +21,13 @@ const SelectField = (props) => {
 				{props.label}:
 			</label>
 			<select
+				disabled={props.disabled}
 				className="iht-select-field__input"
 				name={props.name}
 				onChange={props.onChange}
 				value={props.value}
 			>
+				<option disabled value={""}></option>
 				{options}
 			</select>
 		</div>

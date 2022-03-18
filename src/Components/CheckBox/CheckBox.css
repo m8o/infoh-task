@@ -1,0 +1,21 @@
+.iht-check-box {
+	display: flex;
+	align-items: flex-start;
+	gap: 24px;
+	width: 100%;
+}
+.iht-check-box__label {
+	font-size: 12px;
+	color: darkslategray;
+}
+.iht-check-box__input {
+	padding: 8px 4px;
+	font-size: 16px;
+	box-sizing: border-box;
+	box-sizing: border-box;
+	-ms-transform: scale(2); /* IE */
+	-moz-transform: scale(2); /* FF */
+	-webkit-transform: scale(2); /* Safari and Chrome */
+	-o-transform: scale(2); /* Opera */
+	transform: scale(2);
+}

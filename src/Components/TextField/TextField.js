@@ -6,6 +6,7 @@ import "./TextField.css";
  * @property {string} value
  * @property {string} name
  * @property {function} onChange
+ * @property {boolean} disabled
  * @returns
  */
 
@@ -16,6 +17,7 @@ const TextField = (props) => {
 				{props.label}:
 			</label>
 			<input
+				disabled={props.disabled}
 				className="iht-text-field__input"
 				name={props.name}
 				value={props.value}
