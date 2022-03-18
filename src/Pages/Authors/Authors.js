@@ -6,11 +6,8 @@ import Paper from "../../Components/Paper/Paper";
 import Title from "../../Components/Title/Title";
 import fetchFunction from "../../Services/fetchFunction";
 import "./Authors.css";
-import { useSelector } from "react-redux";
 
 const Authors = () => {
-	const authors = useSelector((state) => state.author);
-	console.log(authors);
 	let navigate = useNavigate();
 	const [dataTableData, setDataTableData] = useState([]);
 
