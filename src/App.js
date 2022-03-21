@@ -7,10 +7,10 @@ import { useEffect } from "react";
 import { getData } from "./Store/Actions/getAllData";
 
 function App() {
-	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(getData("all"));
-	}, []);
+	// const dispatch = useDispatch();
+	// useEffect(() => {
+	// 	dispatch(getData("all"));
+	// }, []);
 
 	return (
 		<main className="App">

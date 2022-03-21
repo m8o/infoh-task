@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MdOutlineArrowBack } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../Components/Button/Button";
 import CheckBox from "../../../Components/CheckBox/CheckBox";
@@ -64,10 +65,17 @@ const BookForm = () => {
 			navigate("/Books");
 		}
 	}
-	console.log(inputValues);
 	return (
 		<div className="iht-form iht-content-wrapper">
-			<Title>{bookId ? "Book update" : "Add new book"}</Title>
+			<div className="iht-form__header">
+				<MdOutlineArrowBack
+					onClick={() => {
+						navigate("/Books");
+					}}
+					className="iht-icon iht-icon clickable"
+				/>
+				<Title>{bookId ? "Book update" : "Add new book"}</Title>
+			</div>
 			<Paper>
 				<form className="iht-inputs-form">
 					<TextField

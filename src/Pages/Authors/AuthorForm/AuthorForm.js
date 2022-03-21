@@ -5,6 +5,7 @@ import Paper from "../../../Components/Paper/Paper";
 import TextField from "../../../Components/TextField/TextField";
 import Title from "../../../Components/Title/Title";
 import fetchFunction from "../../../Services/fetchFunction";
+import { MdOutlineArrowBack } from "react-icons/md";
 import "./AuthorForm.css";
 const initialState = {
 	name: "",
@@ -48,7 +49,15 @@ const AuthorForm = () => {
 	}
 	return (
 		<div className="iht-form iht-content-wrapper">
-			<Title>{authorId ? "Author update" : "Add new author"}</Title>
+			<div className="iht-form__header">
+				<MdOutlineArrowBack
+					onClick={() => {
+						navigate("/Authors");
+					}}
+					className="iht-icon iht-icon clickable"
+				/>
+				<Title>{authorId ? "Author update" : "Add new author"}</Title>
+			</div>
 
 			<Paper>
 				<form className="iht-inputs-form">

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MdOutlineArrowBack } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../Components/Button/Button";
 import Paper from "../../../Components/Paper/Paper";
@@ -52,7 +53,15 @@ const CategoryForm = () => {
 	}
 	return (
 		<div className="iht-form iht-content-wrapper">
-			<Title>{categoryId ? "Category update" : "Add new category"}</Title>
+			<div className="iht-form__header">
+				<MdOutlineArrowBack
+					onClick={() => {
+						navigate("/Categories");
+					}}
+					className="iht-icon iht-icon clickable"
+				/>
+				<Title>{categoryId ? "Category update" : "Add new category"}</Title>
+			</div>
 
 			<Paper>
 				<form className="iht-inputs-form">
