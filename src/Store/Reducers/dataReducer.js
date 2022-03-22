@@ -1,28 +1,36 @@
-import fetchFunction from "../../Services/fetchFunction";
-import { GET_DATA } from "../Actions/getAllData";
-const getDataFunc = async (actionField) => {
-	let response;
-	if (actionField === "all") {
-		const category = await fetchFunction("get", "category").then(
-			(data) => data.data
-		);
-		const author = await fetchFunction("get", "author").then(
-			(data) => data.data
-		);
-		const book = await fetchFunction("get", "book").then((data) => data.data);
-		response = { category, author, book };
-	}
-	response = await fetchFunction("get", actionField).then((data) => data.data);
-	return response;
-};
+import { DELETE_FROM_STORE } from "../Actions/deleteFromStore";
+import { SET_STORE } from "../Actions/setStore";
+
 const dataReducer = (
-	state = { category: [], author: [], book: [] },
+	state = {
+		categories: [],
+		deletedCategories: [],
+		authors: [],
+		deletedAuthors: [],
+		books: [],
+		deletedBooks: [],
+	},
 	action
 ) => {
 	switch (action.type) {
-		case GET_DATA:
-			getDataFunc(action.field);
-			return { ...state };
+		case SET_STORE:
+			return { ...state, ...action.fields };
+
+		case DELETE_FROM_STORE:
+			let tempState = { ...state };
+			switch (action.field) {
+				case "categories":
+					tempState.deletedCategories.push(action.id);
+				case "books":
+					tempState.deletedBooks.push(action.id);
+				case "authors":
+					tempState.deletedAuthors.push(action.id);
+				default:
+					break;
+			}
+			console.log(tempState);
+			return tempState;
+
 		default:
 			return state;
 	}

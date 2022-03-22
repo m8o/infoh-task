@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineArrowBack } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../Components/Button/Button";
 import Paper from "../../../Components/Paper/Paper";
 import TextField from "../../../Components/TextField/TextField";
 import Title from "../../../Components/Title/Title";
+import useFormStateAndValidation from "../../../Hooks/useFormStateAndValidation";
 import fetchFunction from "../../../Services/fetchFunction";
+import { setStore } from "../../../Store/Actions/setStore";
 import "./CategoryForm.css";
 const initialState = {
 	name: "",
@@ -14,7 +17,14 @@ const initialState = {
 const CategoryForm = () => {
 	let navigate = useNavigate();
 	let { categoryId } = useParams();
-	const [inputValues, setInputValues] = useState(initialState);
+	const dispatch = useDispatch();
+	const {
+		inputValues,
+		setInputValues,
+		handleChange,
+		validationObject,
+		formIsValid,
+	} = useFormStateAndValidation(initialState);
 	useEffect(async () => {
 		if (categoryId) {
 			const response = await fetchFunction("get", `category/${categoryId}`);
@@ -25,13 +35,10 @@ const CategoryForm = () => {
 		}
 	}, []);
 
-	function handleChange(event) {
-		const { name, value } = event.target;
-		setInputValues((currentValues) => {
-			return { ...currentValues, [name]: value };
-		});
+	async function fetchDataTableData() {
+		const response = await fetchFunction("get", "category");
+		dispatch(setStore({ categories: response.data }));
 	}
-
 	async function handleSave() {
 		if (categoryId) {
 			const response = await fetchFunction(
@@ -40,14 +47,16 @@ const CategoryForm = () => {
 				inputValues
 			);
 			if (response.status === 200 || response.status === 201) {
+				fetchDataTableData();
 				alert("Succesfully updated");
 				navigate("/Categories");
 			}
 		} else {
 			const response = await fetchFunction("post", "category", inputValues);
 			if (response.status === 200 || response.status === 201) {
+				fetchDataTableData();
 				alert("Succesfully added");
-				setInputValues(initialState);
+				navigate("/Categories");
 			}
 		}
 	}
@@ -70,14 +79,17 @@ const CategoryForm = () => {
 						label="Name"
 						value={inputValues.name}
 						onChange={handleChange}
+						isValid={validationObject.name}
 					/>
 					<TextField
 						name="short_desc"
 						label="Short description"
 						value={inputValues.short_desc}
 						onChange={handleChange}
+						isValid={validationObject.short_desc}
 					/>
 					<Button
+						disabled={!formIsValid}
 						title={categoryId ? "Update category" : "Save category"}
 						clicked={handleSave}
 					/>

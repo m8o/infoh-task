@@ -15,3 +15,7 @@
 	box-sizing: border-box;
 	width: 100%;
 }
+
+.iht-text-field__input.fail {
+	border-color: crimson;
+}

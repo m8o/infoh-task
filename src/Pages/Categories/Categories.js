@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DataTable from "../../Components/DataTable/DataTable";
 import FloatingButton from "../../Components/FloatingButton/FloatingButton";
 import Paper from "../../Components/Paper/Paper";
 import Title from "../../Components/Title/Title";
 import fetchFunction from "../../Services/fetchFunction";
+import { deleteFromStore } from "../../Store/Actions/deleteFromStore";
+import { setStore } from "../../Store/Actions/setStore";
 import "./Categories.css";
 
 const Categories = () => {
+	const { categories, deletedCategories } = useSelector((state) => state);
 	let navigate = useNavigate();
-	const [dataTableData, setDataTableData] = useState([]);
+	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		fetchDataTableData();
+	useEffect(() => {
+		if (categories.length === 0) {
+			fetchDataTableData();
+		}
 	}, []);
 	async function fetchDataTableData() {
 		const response = await fetchFunction("get", "category");
-		if (response.status === 200 || response.status === 201) {
-			setDataTableData(response.data);
-		}
+		dispatch(setStore({ categories: response.data }));
 	}
 	async function onDelete(id) {
-		const response = await fetchFunction("delete", `category/${id}`);
-		if (response.status === 200 || response.status === 201) {
-			alert("deleted", response.data);
-			fetchDataTableData();
-		}
+		dispatch(deleteFromStore("categories", id));
+		alert("Deleted!");
 	}
 	function onEdit(id) {
 		navigate(`/Categories/Edit${id}`);
@@ -38,7 +39,8 @@ const Categories = () => {
 			</div>
 			<Paper>
 				<DataTable
-					data={dataTableData}
+					data={categories}
+					deletedData={deletedCategories}
 					onDelete={onDelete}
 					onEdit={onEdit}
 					idName={["id"]}

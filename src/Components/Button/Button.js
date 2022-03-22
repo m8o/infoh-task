@@ -7,8 +7,17 @@ import "./Button.css";
  * @returns
  */
 const Button = (props) => {
+	let buttonClassnameArray = ["iht-button"];
+	if (props.disabled) {
+		buttonClassnameArray.push("disabled");
+	}
 	return (
-		<button type="button" className="iht-button" onClick={props.clicked}>
+		<button
+			type="button"
+			disabled={props.disabled}
+			className={buttonClassnameArray.join(" ")}
+			onClick={props.clicked}
+		>
 			{props.title}
 		</button>
 	);

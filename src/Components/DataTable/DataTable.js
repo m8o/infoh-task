@@ -16,7 +16,7 @@ const DataTable = (props) => {
 				columnHeader.push(<th>{key}</th>);
 			}
 			if (props.idName[0] === key) {
-				columnHeader.unshift(<th>Delete</th>, <th>Edit</th>);
+				columnHeader.unshift(<th>Delete</th>, <th>Edit</th>, <th>Deleted</th>);
 			}
 		});
 		for (let i = 0; i < props.data.length; i++) {
@@ -43,18 +43,45 @@ const DataTable = (props) => {
 							<td>
 								<MdDelete
 									onClick={() => {
-										props.onDelete(props.data[i][props.idName[0]]);
+										if (
+											!props.deletedData.includes(
+												props.data[i][props.idName[0]]
+											)
+										) {
+											props.onDelete(props.data[i][props.idName[0]]);
+										}
 									}}
-									className="iht-icon clickable fail"
+									className={
+										props.deletedData.includes(props.data[i][props.idName[0]])
+											? "iht-icon"
+											: "iht-icon clickable fail"
+									}
 								/>
 							</td>,
 							<td>
 								<MdEdit
 									onClick={() => {
-										props.onEdit(props.data[i][props.idName[0]]);
+										if (
+											!props.deletedData.includes(
+												props.data[i][props.idName[0]]
+											)
+										) {
+											props.onEdit(props.data[i][props.idName[0]]);
+										}
 									}}
-									className="iht-icon clickable success"
+									className={
+										props.deletedData.includes(props.data[i][props.idName[0]])
+											? "iht-icon"
+											: "iht-icon clickable success"
+									}
 								/>
+							</td>,
+							<td>
+								<b>
+									{props.deletedData.includes(props.data[i][props.idName[0]])
+										? "Yes"
+										: "No"}
+								</b>
 							</td>
 						);
 					}

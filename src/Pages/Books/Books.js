@@ -1,19 +1,25 @@
 import "./Books.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import DataTable from "../../Components/DataTable/DataTable";
 import Paper from "../../Components/Paper/Paper";
 import Title from "../../Components/Title/Title";
 import FloatingButton from "../../Components/FloatingButton/FloatingButton";
 import { useNavigate } from "react-router-dom";
 import fetchFunction from "../../Services/fetchFunction";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFromStore } from "../../Store/Actions/deleteFromStore";
+import { setStore } from "../../Store/Actions/setStore";
 
 const Books = () => {
+	const { books, deletedBooks } = useSelector((state) => state);
 	let navigate = useNavigate();
-	const [dataTableData, setDataTableData] = useState([]);
-
-	useEffect(async () => {
-		fetchDataTableData();
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (books.length === 0) {
+			fetchDataTableData();
+		}
 	}, []);
+
 	async function fetchDataTableData() {
 		const categories = await fetchFunction("get", "category").then(
 			(data) => data.data
@@ -21,34 +27,13 @@ const Books = () => {
 		const authors = await fetchFunction("get", "author").then(
 			(data) => data.data
 		);
-		const response = await fetchFunction("get", "book");
-		if (response.status === 200 || response.status === 201) {
-			setDataTableData(() => {
-				let tempAuthor;
-				let tempCategory;
-				const temp = response.data.map((element) => {
-					tempAuthor = authors.find(
-						(author) => element.author_id === author.id
-					);
-					tempCategory = categories.find(
-						(category) => element.category_id === category.id
-					);
-					return {
-						...element,
-						author: tempAuthor.name,
-						category: tempCategory.name,
-					};
-				});
-				return temp;
-			});
-		}
+		const books = await fetchFunction("get", "book").then((data) => data.data);
+
+		dispatch(setStore({ categories, authors, books }));
 	}
 	async function onDelete(id) {
-		const response = await fetchFunction("delete", `book/${id}`);
-		if (response.status === 200 || response.status === 201) {
-			alert("deleted", response.data);
-			fetchDataTableData();
-		}
+		dispatch(deleteFromStore("books", id));
+		alert("Deleted!");
 	}
 	function onEdit(id) {
 		navigate(`/Books/Edit${id}`);
@@ -61,7 +46,8 @@ const Books = () => {
 			</div>
 			<Paper>
 				<DataTable
-					data={dataTableData}
+					data={books}
+					deletedData={deletedBooks}
 					onDelete={onDelete}
 					onEdit={onEdit}
 					idName={["uuid", "author_id", "category_id"]}

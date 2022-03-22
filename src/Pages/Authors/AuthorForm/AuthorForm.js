@@ -7,6 +7,9 @@ import Title from "../../../Components/Title/Title";
 import fetchFunction from "../../../Services/fetchFunction";
 import { MdOutlineArrowBack } from "react-icons/md";
 import "./AuthorForm.css";
+import useFormStateAndValidation from "../../../Hooks/useFormStateAndValidation";
+import { useDispatch } from "react-redux";
+import { setStore } from "../../../Store/Actions/setStore";
 const initialState = {
 	name: "",
 	about: "",
@@ -14,7 +17,14 @@ const initialState = {
 const AuthorForm = () => {
 	let navigate = useNavigate();
 	let { authorId } = useParams();
-	const [inputValues, setInputValues] = useState(initialState);
+	const dispatch = useDispatch();
+	const {
+		inputValues,
+		setInputValues,
+		handleChange,
+		validationObject,
+		formIsValid,
+	} = useFormStateAndValidation(initialState);
 	useEffect(async () => {
 		if (authorId) {
 			const response = await fetchFunction("get", `author/${authorId}`);
@@ -25,11 +35,9 @@ const AuthorForm = () => {
 		}
 	}, []);
 
-	function handleChange(event) {
-		const { name, value } = event.target;
-		setInputValues((currentValues) => {
-			return { ...currentValues, [name]: value };
-		});
+	async function fetchDataTableData() {
+		const response = await fetchFunction("get", "author");
+		dispatch(setStore({ authors: response.data }));
 	}
 	async function handleSave() {
 		let response;
@@ -39,12 +47,18 @@ const AuthorForm = () => {
 				`author/${authorId}`,
 				inputValues
 			);
+			if (response.status === 200 || response.status === 201) {
+				fetchDataTableData();
+				alert("Succesfully updated");
+				navigate("/Authors");
+			}
 		} else {
 			response = await fetchFunction("post", "author", inputValues);
-		}
-		if (response.status === 200 || response.status === 201) {
-			alert("Succesfully updated");
-			navigate("/Authors");
+			if (response.status === 200 || response.status === 201) {
+				fetchDataTableData();
+				alert("Succesfully added");
+				navigate("/Authors");
+			}
 		}
 	}
 	return (
@@ -66,14 +80,17 @@ const AuthorForm = () => {
 						label="Name"
 						value={inputValues.name}
 						onChange={handleChange}
+						isValid={validationObject.name}
 					/>
 					<TextField
 						name="about"
 						label="About"
 						value={inputValues.about}
 						onChange={handleChange}
+						isValid={validationObject.about}
 					/>
 					<Button
+						disabled={!formIsValid}
 						title={authorId ? "Update author" : "Save author"}
 						clicked={handleSave}
 					/>

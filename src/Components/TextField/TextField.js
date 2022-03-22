@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TextField.css";
 /**
  *
@@ -11,6 +11,11 @@ import "./TextField.css";
  */
 
 const TextField = (props) => {
+	const [isTouched, setIsTouched] = useState(false);
+	let inputClassnameArray = ["iht-text-field__input"];
+	if (!props.isValid && isTouched) {
+		inputClassnameArray.push("fail");
+	}
 	return (
 		<div className="iht-text-field">
 			<label className="iht-text-field__label" htmlFor={props.name}>
@@ -18,11 +23,12 @@ const TextField = (props) => {
 			</label>
 			<input
 				disabled={props.disabled}
-				className="iht-text-field__input"
+				className={inputClassnameArray.join(" ")}
 				name={props.name}
 				value={props.value}
 				onChange={props.onChange}
 				type="text"
+				onBlur={() => setIsTouched(true)}
 			/>
 		</div>
 	);
